@@ -333,8 +333,8 @@ class GenericNapariUI:
         Args:
             key (_type_): _description_
         '''
-        min_val = self.hist_range_lines[key][0].pos()[0]
-        max_val = self.hist_range_lines[key][1].pos()[0]
+        min_val = self.hist_range_lines[key][0].pos().x()
+        max_val = self.hist_range_lines[key][1].pos().x()
         self.roi_feature_ranges[key] = min_val, max_val
         self.update_histogram_titles()
         if save:
