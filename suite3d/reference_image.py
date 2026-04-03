@@ -1003,9 +1003,9 @@ def pad_mov(mov, plane_shifts):
     xrange = plane_shifts[:, 1].min(), plane_shifts[:, 1].max()
     yrange = plane_shifts[:, 0].min(), plane_shifts[:, 0].max()
 
-    ypad = n.ceil(n.abs(n.diff(yrange))).astype(int)[::-1]
+    ypad = n.ceil(n.abs(n.diff(yrange))).astype(int)[::-1][0]
     yshift = n.ceil(n.abs((yrange[0]))).astype(int)
-    xpad = n.ceil(n.abs(n.diff(xrange))).astype(int)[::-1]
+    xpad = n.ceil(n.abs(n.diff(xrange))).astype(int)[::-1][0]
     xshift = n.ceil(n.abs((xrange[0]))).astype(int)
     nyn = nyo + ypad.sum()
     nxn = nxo + xpad.sum()
@@ -1266,8 +1266,8 @@ def compute_reference_and_masks_3d(
 
     mov_cpu, xpad, ypad = pad_mov(mov_cpu, tvecs)  # pad the movie to correct size
     pad_sizes = [xpad, ypad]
-    xpad = int(xpad)
-    ypad = int(ypad)
+    xpad = int(xpad[0])
+    ypad = int(ypad[0])
 
     log_cb("Applying plane alignment shifts", 1)
     # print(mov_cpu.shape)
