@@ -1003,9 +1003,9 @@ def pad_mov(mov, plane_shifts):
     xrange = plane_shifts[:, 1].min(), plane_shifts[:, 1].max()
     yrange = plane_shifts[:, 0].min(), plane_shifts[:, 0].max()
 
-    ypad = n.ceil(n.abs(n.diff(yrange))).astype(int)[::-1][0]
+    ypad = n.ceil(n.abs(n.diff(yrange))).astype(int)[::-1]
     yshift = n.ceil(n.abs((yrange[0]))).astype(int)
-    xpad = n.ceil(n.abs(n.diff(xrange))).astype(int)[::-1][0]
+    xpad = n.ceil(n.abs(n.diff(xrange))).astype(int)[::-1]
     xshift = n.ceil(n.abs((xrange[0]))).astype(int)
     nyn = nyo + ypad.sum()
     nxn = nxo + xpad.sum()
