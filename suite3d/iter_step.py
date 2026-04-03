@@ -618,7 +618,7 @@ def register_dataset_s2p(
         save_dtype = n.float32
     elif save_dtype_str == "float16":
         save_dtype = n.float16
-    reference_params = summary["reference_params"]    
+    reference_params = summary["reference_params"]
     rmins = reference_params.get("plane_mins", None)
     rmaxs = reference_params.get("plane_maxs", None)
     if all_ops is None:
@@ -631,13 +631,13 @@ def register_dataset_s2p(
                 op['norm_frames'] = False
                 op['rmin'] = rmins[i]
                 op['rmax'] = rmaxs[i]
-            op['snr_thresh'] = params.get("snr_thresh", 1.2)  
+            op['snr_thresh'] = params.get("snr_thresh", 1.2)
             op['NRsm'] = reference_params["NRsm"]
             op['yblocks'], op['xblocks'] = reference_params["yblock"], reference_params["xblock"]
-            op['nblocks'] = reference_params["nblocks"]    
+            op['nblocks'] = reference_params["nblocks"]
             op['maxregshiftNR'] = params.get("max_shift_nr", 3)
             all_ops.append(op)
-        
+
     batches = init_batches(tifs, tif_batch_size, n_tifs_to_analyze)
     n_batches = len(batches)
     log_cb(
@@ -964,9 +964,9 @@ def register_dataset_gpu_3d(
     sigma = reference_params["sigma"]
     ref_img = ref_img_3d.copy()
     if ypad > 0:
-        ref_img = ref_img[:, int(ypad) : int(-ypad)]
+        ref_img = ref_img[:, int(ypad[0]) : int(-ypad[0])]
     if xpad > 0:
-        ref_img = ref_img[:, :, int(xpad) : int(-xpad)]
+        ref_img = ref_img[:, :, int(xpad[0]) : int(-xpad[0])]
     # ref_img = ref_img_3d[:, int(ypad):int(-ypad), int(xpad): int(-xpad)]
     mask_mul, mask_offset = ref.compute_masks3D(ref_img, sigma)
     ref_2ds = reg_3d.mask_filter_fft_ref(ref_img, mask_mul, mask_offset, smooth=0.5)
@@ -1123,7 +1123,7 @@ def register_dataset_gpu_3d(
         mov_shifted = reg_3d.shift_mov_fast(mov_cpu, -int_shift)
 
         if apply_z_shift:
-            # if there is at least one 
+            # if there is at least one
             if n.max(int_shift[0]) > 1:
                 mov_shifted = reg_3d.shift_mov_z(mov_shifted, int_shift)
         log_cb(f"Shifted the mov in: {time.time() - time_shift}s")
